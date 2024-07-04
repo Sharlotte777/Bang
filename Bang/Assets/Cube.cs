@@ -1,17 +1,17 @@
 using System;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 [RequireComponent(typeof(Rigidbody))]
 [RequireComponent(typeof(Renderer))]
 
 public class Cube : MonoBehaviour
 {
-    public event Action<Cube> Divided;
-
-    private int _chanceOfSeparation = 100;
+    [SerializeField] private int _chanceOfSeparation = 100;
     private int _numberOfDecrease = 2;
     private Material _material;
-    private Rigidbody _rigidbody;
+
+    public event Action<Cube> Divided;
 
     public void Authorization()
     {
@@ -25,7 +25,7 @@ public class Cube : MonoBehaviour
         int minChanceOfSeparation = 0;
         int maxChanceOfSeparation = 100;
 
-        float probability = UnityEngine.Random.Range(minChanceOfSeparation, maxChanceOfSeparation + 1);
+        float probability = Random.Range(minChanceOfSeparation, maxChanceOfSeparation + 1);
 
         if (_chanceOfSeparation >= probability)
         {
@@ -42,7 +42,6 @@ public class Cube : MonoBehaviour
     private void Awake()
     {
         _material = GetComponent<Renderer>().material;
-        _rigidbody = GetComponent<Rigidbody>();
     }
 
     private void ReduceSeparateChance()
@@ -59,6 +58,6 @@ public class Cube : MonoBehaviour
 
     private void CreateColor()
     {
-        _material.color = UnityEngine.Random.ColorHSV();
+        _material.color = Random.ColorHSV();
     }
 }
