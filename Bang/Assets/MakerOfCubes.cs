@@ -5,7 +5,7 @@ public class MakerOfCubes : MonoBehaviour
 {
     [SerializeField] private Cube _prefab;
     [SerializeField] private float _force;
-    [SerializeField] private CreatingForceToCube _addingForce = null;
+    [SerializeField] private Force _addingForce = null;
 
     private void OnEnable()
     {

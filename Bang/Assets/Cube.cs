@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
@@ -8,8 +9,11 @@ using Random = UnityEngine.Random;
 public class Cube : MonoBehaviour
 {
     [SerializeField] private int _chanceOfSeparation = 100;
+    [SerializeField] private MakerOfExplosion _makerOfExplosion = null;
+    [SerializeField] private float _radious = 25f;
     private int _numberOfDecrease = 2;
     private Material _material;
+    private float _difference = 0;
 
     public event Action<Cube> Divided;
 
@@ -31,6 +35,27 @@ public class Cube : MonoBehaviour
         {
             Divided?.Invoke(this);
         }
+        else
+        {
+            _makerOfExplosion.CreateExplosion(_difference, GetExplodableObjects());
+        }
+    }
+
+    private List<Rigidbody> GetExplodableObjects()
+    {
+        _difference = _makerOfExplosion.ReturnDifference(transform.localScale);
+
+        Collider[] hits = Physics.OverlapSphere(transform.position, _radious);
+
+        List <Rigidbody> cubes = new();
+
+        foreach (Collider hit in hits)
+        {
+            if (hit.attachedRigidbody != null)
+                cubes.Add(hit.attachedRigidbody);
+        }
+
+        return cubes;
     }
 
     private void OnMouseUpAsButton()
