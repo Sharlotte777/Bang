@@ -17,6 +17,17 @@ public class Cube : MonoBehaviour
 
     public event Action<Cube> Divided;
 
+    private void Awake()
+    {
+        _material = GetComponent<Renderer>().material;
+    }
+
+    private void OnMouseUpAsButton()
+    {
+        TryDivide();
+        Destroy(gameObject);
+    }
+
     public void Authorization()
     {
         ReduceSeparateChance();
@@ -56,17 +67,6 @@ public class Cube : MonoBehaviour
         }
 
         return cubes;
-    }
-
-    private void OnMouseUpAsButton()
-    {
-        TryDivide();
-        Destroy(gameObject);
-    }
-
-    private void Awake()
-    {
-        _material = GetComponent<Renderer>().material;
     }
 
     private void ReduceSeparateChance()
